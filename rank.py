@@ -49,12 +49,12 @@ from rank_bm25 import BM25Okapi
 #             })
 #         return results
 class HybridChatBot:
-    def __init__(self, model_name="all-MiniLM-L6-v2", index_file="Chatbot/data/faiss.index", fallback_threshold=0.05):
+    def __init__(self, model_name="all-MiniLM-L6-v2", index_file="data/faiss.index", fallback_threshold=0.05):
         # Load embeddings index
         self.model = SentenceTransformer(model_name)
         self.index = faiss.read_index(index_file)
-        self.questions = np.load("Chatbot/data/questions.npy", allow_pickle=True)
-        self.answers = np.load("Chatbot/data/answers.npy", allow_pickle=True)
+        self.questions = np.load("data/questions.npy", allow_pickle=True)
+        self.answers = np.load("data/answers.npy", allow_pickle=True)
 
         # Prepare BM25
         tokenized_corpus = [q.lower().split() for q in self.questions]
