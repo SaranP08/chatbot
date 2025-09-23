@@ -1,0 +1,402 @@
+[
+  {
+    "question": "How does the Sat2Farm app work?",
+    "answer": "Sat2Farm uses satellite data and AI to give you farm-specific insights. Add your farm by\ngeo-tagging, select your crop, and receive updates on soil health, irrigation, weather,\npest/disease risks, and more."
+  },
+  {
+    "question": "Is there a demo for this app?",
+    "answer": "Yes! Watch our demo video here: https://youtu.be/DgiBr4AdBv0\nExplore the demo farm inside the app to understand features before subscribing."
+  },
+  {
+    "question": "I’m new here. How do I start using the app?",
+    "answer": "Welcome! Start by adding your farm using the \"Add Farm\" feature. Then select your crop\nand sowing date. You'll begin receiving tailored scientific insights. Need help? Ask anytime!"
+  },
+  {
+    "question": "What languages does the app support?",
+    "answer": "Currently available in English, Hindi, Kannada, Telugu, and more. Language can be\nselected from the profile section.\nAdding a Farm"
+  },
+  {
+    "question": "How to add my farm in the app?",
+    "answer": "Go to Home → Tap \"Add New\" → Choose Walk or Draw method → Mark the boundary →\nFill in farm name, crop, sowing date → Save. Your farm will be listed under \"My Farms\"."
+  },
+  {
+    "question": "I walked around my farm but it shows 0.0 acres?",
+    "answer": "Ensure your GPS/location is on, walk slowly around the full boundary, and avoid standing\nstill for long. Try redrawing if the issue persists."
+  },
+  {
+    "question": "Can I add multiple farms?",
+    "answer": "Yes! You can add as many farms as needed. Each will have a unique Farm ID for\ntracking."
+  },
+  {
+    "question": "Can I delete or edit a farm?",
+    "answer": "Yes you can delete a farm and you edit farm details such as Sowing date and crop only.\nBut the farm name and coordinates can’t be edited. Contact support with your Farm ID for\nany specific queries.\nCrop Health / NDVI"
+  },
+  {
+    "question": "How do I check NDVI for crop health?",
+    "answer": "Go to \"My Farms\" → Select your farm → Tap \"Crop Health\". You’ll see the NDVI map with\ncolor zones (Red = Poor, Green = Healthy)."
+  },
+  {
+    "question": "Why is crop health not updating?",
+    "answer": "NDVI updates every 5 days. If cloudy, data might be skipped. Check the next update date\nin the same section."
+  },
+  {
+    "question": "How to understand the NDVI chart?",
+    "answer": "NDVI chart shows crop health trends over time. Higher curve = better vegetation.\nCompare weekly values to track crop progress.\nSoil Health & Moisture"
+  },
+  {
+    "question": "How do I get a soil health report?",
+    "answer": "After adding your farm and selecting the crop, tap \"Soil Health\". You’ll see macronutrients\n(N, P, K), pH, and organic carbon. Report is downloadable as PDF."
+  },
+  {
+    "question": "How is soil health measured by satellite?",
+    "answer": "It’s estimated using satellite spectral bands + AI models trained on lab data. This gives\nnon-invasive, cost-effective insights."
+  },
+  {
+    "question": "Why is my soil moisture data old?",
+    "answer": "Soil moisture updates every 12 days. If recent data is missing, it may be due to satellite\nschedule or cloud/rain interference."
+  },
+  {
+    "question": "LSWI is low even after irrigation. Why?",
+    "answer": "LSWI may take 1-3 days to reflect changes. Factors like soil type or cloudy weather may\ndelay visible updates.\nWeather Forecast"
+  },
+  {
+    "question": "How to view the weather forecast?",
+    "answer": "In \"My Farms\", select your farm → Tap \"Weather\" → View 14-day forecast for\ntemperature, rainfall, wind, and cloud cover graphically."
+  },
+  {
+    "question": "Why is the forecast not updating?",
+    "answer": "Refresh the app or check the internet. Forecast updates every 3 hours."
+  },
+  {
+    "question": "Can I get rainfall data in mm?",
+    "answer": "Yes. Under the Rainfall tab, mm values are shown per day. Pinch to zoom for details."
+  },
+  {
+    "question": "Does it predict the monsoon accurately?",
+    "answer": "It’s ~80% accurate for the next 3 days; monsoon can change quickly. Use local\nknowledge as a supplement."
+  },
+  {
+    "question": "How to get irrigation recommendations?",
+    "answer": "Tap \"Irrigation\" → See amount (mm) and frequency for surface, sprinkler, and drip based\non your crop stage and soil moisture."
+  },
+  {
+    "question": "Why is the irrigation section not working?",
+    "answer": "Data may be processed. Wait up to 4 hours after adding farm or contact support if\npersists."
+  },
+  {
+    "question": "What do mm values mean?",
+    "answer": "Millimeters of water per acre needed to reach optimal moisture."
+  },
+  {
+    "question": "Can I follow the schedule for drip irrigation?",
+    "answer": "Yes. In irrigation advisory, follow the \"Drip\" method for specific guidance.\nCrop Calendar"
+  },
+  {
+    "question": "What is the Crop Calendar?",
+    "answer": "A weekly timeline of farm activities from field prep to harvest, tailored to your sowing date."
+  },
+  {
+    "question": "How to access it?",
+    "answer": "Tap \"Crop Calendar\" in your farm menu. Scroll weeks to see tasks and input\nrecommendations."
+  },
+  {
+    "question": "Does it cover pest control?",
+    "answer": "Yes, in specific cases it flags spraying windows for pesticides and organic options.\nOtherwise, covered in pest and disease forewarning.\nPest & Disease Forewarning"
+  },
+  {
+    "question": "How do I get pest and disease alerts?",
+    "answer": "Open \"Pest & Disease Forewarning\" → View upcoming risk dates, symptom details, and\ncontrol measures."
+  },
+  {
+    "question": "What factors trigger alerts?",
+    "answer": "Weather parameters: temperature, humidity, rainfall."
+  },
+  {
+    "question": "How accurate are these warnings?",
+    "answer": "~85% based on historical data and weather."
+  },
+  {
+    "question": "Can I request specific disease info?",
+    "answer": "Yes. Use \"Community\" or \"Image Advisory\" to ask experts.\nImage Advisory"
+  },
+  {
+    "question": "How to upload crop photos?",
+    "answer": "Tap \"Image Advisory\" → Camera icon → Take or select more than 3 clear images → Add\ncomments → Submit."
+  },
+  {
+    "question": "How long for diagnosis?",
+    "answer": "3-4 hours (working hours)."
+  },
+  {
+    "question": "No reply after 2 days. What now?",
+    "answer": "Re-upload images with timestamp or contact support with Farm ID."
+  },
+  {
+    "question": "Can I get organic solutions?",
+    "answer": "Yes, we also provide organic solutions based on requirements. Contact support for more\ninformation.\nTrial & Pricing"
+  },
+  {
+    "question": "Can I get a trial?",
+    "answer": "We offer a demo farm, but no free trial. Subscribe at ₹800/acre/season for full access."
+  },
+  {
+    "question": "Any offer for new farmers?",
+    "answer": "Contact sales at contact@satyukt.com."
+  },
+  {
+    "question": "Why no freemium?",
+    "answer": "Premium services support real-time updates and expert advisory."
+  },
+  {
+    "question": "Can I pay per region currency?",
+    "answer": "Currently INR only via Razorpay. Local currency support is in development.\nPayment & Unlock"
+  },
+  {
+    "question": "Payment done but farm not unlocked?",
+    "answer": "Sync delay up to 2 hours. If still locked, share Farm ID to support@satyukt.com."
+  },
+  {
+    "question": "How to pay?",
+    "answer": "In-app via Razorpay. Go to Farm → Lock icon → Pay."
+  },
+  {
+    "question": "Is each farm charged separately?",
+    "answer": "Yes. ₹800 per acre per season per farm."
+  },
+  {
+    "question": "Can I update the referral code?",
+    "answer": "Only once after signup. Contact support if you missed it.\nTroubleshooting"
+  },
+  {
+    "question": "Data not loading?",
+    "answer": "Check the internet. Switch between Wi-Fi & mobile data."
+  },
+  {
+    "question": "Farm deleted automatically?",
+    "answer": "Rare issue. Contact support with Farm ID & timestamp."
+  },
+  {
+    "question": "Multiple farms with the same name error?",
+    "answer": "Rare issue. Contact support to merge them into a single record..\nCommunity & Support"
+  },
+  {
+    "question": "How to contact you?",
+    "answer": "Call +91-8970095700, email contact@satyukt.com, or use the Community page in-app."
+  },
+  {
+    "question": "How to use a Community page?",
+    "answer": "Tap Community → + icon → Enter your question → Submit. Experts reply in 24 hrs."
+  },
+  {
+    "question": "Can I share farms with others?",
+    "answer": "Yes. In My Farms → ••• menu → Share → Enter mobile number."
+  },
+  {
+    "question": "Do you call for clarifications?",
+    "answer": "Yes, experts may call if more details are needed.\nLanguage Support"
+  },
+  {
+    "question": "Can I switch app language?",
+    "answer": "Tap menu → Switch Language → Choose from available options."
+  },
+  {
+    "question": "Are advisories translated?",
+    "answer": "Advisories are in English & major languages based on crop support."
+  },
+  {
+    "question": "Need Hindi replies?",
+    "answer": "Use a Community page in Hindi; our team responds in kind."
+  },
+  {
+    "question": "How to add a new language?",
+    "answer": "Contact support to request for your language.\nData Accuracy"
+  },
+  {
+    "question": "What is the accuracy of soil moisture?",
+    "answer": "~80%."
+  },
+  {
+    "question": "How accurate is the weather forecast?",
+    "answer": "~90% for next 3 days; drops in monsoon."
+  },
+  {
+    "question": "Soil health accuracy?",
+    "answer": "~85-90%, varies by region & crop."
+  },
+  {
+    "question": "NDVI accuracy?",
+    "answer": "Optical measure; reliable within 5-day window when clear.\nAdvanced"
+  },
+  {
+    "question": "Can I analyze terrace gardens?",
+    "answer": "Soil moisture & NDVI need more than 30m × 30m. Smaller gardens not supported."
+  },
+  {
+    "question": "Can I get NPK for a terrace garden?",
+    "answer": "No, soil health requires more than ¼ acre."
+  },
+  {
+    "question": "Thick plantations (banana, coconut)?",
+    "answer": "Weather & NDVI supported; soil health & moisture less accurate under canopy."
+  },
+  {
+    "question": "Insurance integration?",
+    "answer": "We offer an API (Sat4Risk) for insurers to integrate.\nHistorical Data"
+  },
+  {
+    "question": "Can I access last year’s data?",
+    "answer": "Yes, request historical export (paid). Not directly in-app."
+  },
+  {
+    "question": "How old is satellite data used?",
+    "answer": "Up to 6 months for barren land analysis."
+  },
+  {
+    "question": "Can I backfill KML farms?",
+    "answer": "We can import KML for paid customers-contact support.\nCarbon & Sustainability"
+  },
+  {
+    "question": "Carbon emissions for rice fields?",
+    "answer": "We estimate via our MRV algorithm. Results available on request."
+  },
+  {
+    "question": "How to get carbon credits?",
+    "answer": "We estimate emissions; contact support for more information.\nTech"
+  },
+  {
+    "question": "Can I access the admin portal?",
+    "answer": "Yes at https://sat2farm.com/ with your credentials."
+  },
+  {
+    "question": "How to submit app feedback?",
+    "answer": "Menu → Feedback → Submit your suggestions."
+  },
+  {
+    "question": "Can I suggest new features?",
+    "answer": "Yes. Use Feedback or email to contact@satyukt.com."
+  },
+  {
+    "question": "Report bugs?",
+    "answer": "Capture screenshot and share via support email with Farm ID.\nFAQ Quick References"
+  },
+  {
+    "question": "Is this app free?",
+    "answer": "No, ₹800/acre/season."
+  },
+  {
+    "question": "Min area needed?",
+    "answer": "30m×30m for satellite features."
+  },
+  {
+    "question": "Trial available?",
+    "answer": "Only demo farm."
+  },
+  {
+    "question": "Support contact?",
+    "answer": "+91-8970095700 / contact@satyukt.com.\nCommunity Greetings"
+  },
+  {
+    "question": "Hello, I’m new here-any guidance?",
+    "answer": "Welcome! Geo-tag your farm and explore features. Ask any question on the Community\npage!"
+  },
+  {
+    "question": "Good morning everyone!",
+    "answer": "Good morning! How can we assist you today?"
+  },
+  {
+    "question": "I’m happy to be here!",
+    "answer": "Great to have you! Let us know your farm location to get started."
+  },
+  {
+    "question": "Is there anyone from [Country]?",
+    "answer": "Yes-connect with our community from your region!\nLanguage Queries"
+  },
+  {
+    "question": "“इस app mein kya hai?”",
+    "answer": "It’s a digital farm advisor-satellite + AI insights on soil, irrigation, pest, weather, NDVI."
+  },
+  {
+    "question": "Does it work in Nigeria/Ghana/Kenya?",
+    "answer": "Yes! Works globally. Crop lists tailored per region."
+  },
+  {
+    "question": "Can I pay in UGX/GHS?",
+    "answer": "INR only now. We plan multi-currency soon."
+  },
+  {
+    "question": "Local map inaccuracies?",
+    "answer": "Uses Google Earth base map; cannot edit landmarks."
+  },
+  {
+    "question": "Local crop calendars?",
+    "answer": "Based on global agronomy; adjust with local practices.\nData Export & Reports"
+  },
+  {
+    "question": "Can I download reports?",
+    "answer": "Yes-tap the download icon on Soil Health, Weather, Calendar pages."
+  },
+  {
+    "question": "Export historical data?",
+    "answer": "Request via support (paid)."
+  },
+  {
+    "question": "Share report externally?",
+    "answer": "Download PDF and share via email or WhatsApp.\nSpecialized Crops"
+  },
+  {
+    "question": "Coffee & Tea support?",
+    "answer": "Weather, Calendar, Pest advisories work. NDVI under shade is less accurate."
+  },
+  {
+    "question": "Horticulture crops (onion, papaya)?",
+    "answer": "Supported. Use the same workflows → Soil Health, NDVI, Calendar."
+  },
+  {
+    "question": "Greenhouse / polyhouse?",
+    "answer": "Satellite features limited-can analyze open areas; others under development."
+  },
+  {
+    "question": "Terrace garden?",
+    "answer": "Minimum area rule applies; small patches not supported.\nAdditional Services"
+  },
+  {
+    "question": "Carbon credit estimation?",
+    "answer": "Available via MRV. Contact sustainability@satyukt.com."
+  },
+  {
+    "question": "Integration with insurance?",
+    "answer": "Our Sat4Risk API feeds insurers with risk reports."
+  },
+  {
+    "question": "Land undulation maps?",
+    "answer": "DEM at 30m resolution available (paid)."
+  },
+  {
+    "question": "Market trend data?",
+    "answer": "Not provided. Focus is on agronomy & decision support.\nTech Support & Integration"
+  },
+  {
+    "question": "Admin portal access?",
+    "answer": "Available to enterprise clients-email your request."
+  },
+  {
+    "question": "Web portal trial?",
+    "answer": "Demo available-schedule via https://satyukt.com/index.html.\nConclusion & Next Steps"
+  },
+  {
+    "question": "Where to get help?",
+    "answer": "Contact +91-8970095700, email contact@satyukt.com, or use in-app Community."
+  },
+  {
+    "question": "Want more features?",
+    "answer": "Submit ideas via Feedback in the menu."
+  },
+  {
+    "question": "How to stay updated?",
+    "answer": "Follow us on Facebook & LinkedIn."
+  },
+  {
+    "question": "Thank you!",
+    "answer": "We appreciate your trust. Happy farming!\nContact Us\nYou can get in touch with the Satyukt team via the following channels:\n Address: 2nd Floor, 1A Block, Sanjay Nagar Main Rd, CIL Layout\nBlock, Judicial Colony, Raj Mahal Vilas 2nd Stage, Sanjayanagara,\nBengaluru, Karnataka 560094"
+  }
+]
