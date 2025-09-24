@@ -50,14 +50,6 @@ if "user_language" not in st.session_state:
     st.session_state.user_language = "en"
 if "recommendations" not in st.session_state:
     st.session_state.recommendations = st.session_state.recommender.get_initial_questions()
-if "question_searchbox" not in st.session_state or st.session_state.question_searchbox is None:
-    st.session_state.question_searchbox = {
-        "options_js": [],
-        "value": "",
-        "key_react": "question_searchbox_react",
-        "result": None,
-        "search": None
-    }
 
 # --- UI Sidebar for Language Selection ---
 # (This section remains unchanged)
@@ -99,24 +91,37 @@ for message in st.session_state.messages:
     with st.chat_message(message["role"]):
         st.markdown(message["content"])
 
-# --- User Input Section ---
-# We REMOVE the callback and go back to a simpler, direct approach.
-selected_suggestion = st_searchbox(
-    search_function=get_suggestions,
-    placeholder="Ask your question here for real-time suggestions...",
-    key="question_searchbox"
-)
+# --- Your working initialization logic is here ---
+if "question_searchbox" not in st.session_state or st.session_state.question_searchbox is None:
+    st.session_state.question_searchbox = {
+        "options_js": [], "value": "", "key_react": "init", "result": None, "search": None
+    }
 
-# This block now correctly handles the state to prevent infinite loops.
+# --- User Input Section with Dual Functionality ---
+# Use columns to place the searchbox and submit button side-by-side
+input_col, button_col = st.columns([4, 1])
+
+with input_col:
+    selected_suggestion = st_searchbox(
+        search_function=get_suggestions,
+        placeholder="Type here for suggestions or to ask a question...",
+        key="question_searchbox"
+    )
+
+# Logic Path 1: User clicks the "Submit" button
+with button_col:
+    if st.button("Submit", use_container_width=True, type="primary"):
+        # Read the raw text that the user typed from the component's state
+        raw_query = st.session_state.question_searchbox.get("search")
+        if raw_query:
+            handle_query(raw_query)
+            st.session_state.question_searchbox = None  # Clear state
+            st.rerun()
+
+# Logic Path 2: User clicks on a suggestion from the dropdown list
 if selected_suggestion:
-    # 1. Process the query
     handle_query(selected_suggestion)
-    
-    # 2. THE CRITICAL FIX: Manually clear the searchbox's state.
-    # This must be done before the rerun.
-    st.session_state.question_searchbox = None 
-    
-    # 3. Rerun the app to display the new messages and the cleared searchbox.
+    st.session_state.question_searchbox = None  # Clear state
     st.rerun()
 
 
