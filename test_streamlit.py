@@ -119,3 +119,9 @@ for i, (text_en, action_id) in enumerate(action_items):
             # The action_id is the English version of the question
             handle_query(action_id)
         st.rerun()
+prompt_text = "Ask your question here..."
+if prompt := st.chat_input(translate_text(prompt_text, st.session_state.user_language)):
+    # Translate the user's free-text query to English for processing
+    query_en = translate_text(prompt, target_lang="en", source_lang=st.session_state.user_language)
+    handle_query(query_en)
+    st.rerun()
