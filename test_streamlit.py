@@ -2,11 +2,13 @@ import streamlit as st
 from rank import HybridChatBot
 from deep_translator import GoogleTranslator
 from recommender import QuestionRecommender
+from streamlit_searchbox import st_searchbox
 
 # --- App Configuration ---
 st.set_page_config(page_title="Hybrid ChatBot", layout="wide")
 
 # --- Language & Translation Setup ---
+# (This section remains unchanged)
 indian_languages = {
     "English": "en", "Hindi": "hi", "Tamil": "ta", "Telugu": "te", "Kannada": "kn", 
     "Malayalam": "ml", "Marathi": "mr", "Gujarati": "gu", "Punjabi": "pa", "Bengali": "bn", 
@@ -16,7 +18,7 @@ indian_languages = {
 
 @st.cache_data
 def translate_text(text, target_lang, source_lang="auto"):
-    if source_lang == target_lang or (target_lang == "en" and source_lang == "auto"):
+    if not text or source_lang == target_lang or (target_lang == "en" and source_lang == "auto"):
         return text
     try:
         return GoogleTranslator(source=source_lang, target=target_lang).translate(text)
@@ -25,6 +27,7 @@ def translate_text(text, target_lang, source_lang="auto"):
         return text
 
 # --- Model and Recommender Loading ---
+# (This section remains unchanged)
 @st.cache_resource
 def load_bot():
     return HybridChatBot()
@@ -43,42 +46,49 @@ if 'recommender' not in st.session_state:
 # --- Session State Initialization ---
 if "messages" not in st.session_state:
     st.session_state.messages = []
-if "live_suggestions" not in st.session_state:
-    st.session_state.live_suggestions = []
 if "user_language" not in st.session_state:
     st.session_state.user_language = "en"
 if "recommendations" not in st.session_state:
     st.session_state.recommendations = st.session_state.recommender.get_initial_questions()
+if "question_searchbox" not in st.session_state or st.session_state.question_searchbox is None:
+    st.session_state.question_searchbox = {
+        "options_js": [],
+        "value": "",
+        "key_react": "question_searchbox_react",
+        "result": None,
+        "search": None
+    }
 
 # --- UI Sidebar for Language Selection ---
+# (This section remains unchanged)
 st.sidebar.title("Settings")
 selected_language_name = st.sidebar.selectbox(
     "Select your language",
     options=list(indian_languages.keys()),
-    index=0 # Default to English
+    index=0 
 )
 st.session_state.user_language = indian_languages[selected_language_name]
 
-# --- Core Logic Function ---
+# --- Core Logic Functions ---
 def handle_query(query_en):
-    """Processes a query, gets an answer, updates recommendations, and stores in chat history."""
-    # 1. Get answer from the bot
+    query_en = str(query_en)
     results = bot.search(query_en, top_k=5, alpha=0.8)
-    if not results:
-        answer_en = "I'm sorry, I couldn't find an answer to that."
-    else:
-        answer_en = results[0]['answer']
+    answer_en = results[0].get('answer') if results else "I'm sorry, I couldn't find an answer to that."
 
-    # 2. Translate for display
     query_display = translate_text(query_en, target_lang=st.session_state.user_language)
     answer_display = translate_text(answer_en, target_lang=st.session_state.user_language)
 
-    # 3. Add to chat history
     st.session_state.messages.append({"role": "user", "content": query_display})
     st.session_state.messages.append({"role": "assistant", "content": answer_display})
 
-    # 4. Get new recommendations and update state
     st.session_state.recommendations = st.session_state.recommender.recommend(query_en)
+
+def get_suggestions(query, **kwargs):
+    if len(query) < 3:
+        return []
+    all_questions = st.session_state.recommender.questions
+    suggestions = [q for q in all_questions if query.lower() in q.lower()]
+    return suggestions[:5]
 
 # --- Main App Interface ---
 st.title("Sat2Farm AI Assistant", anchor=False)
@@ -89,27 +99,40 @@ for message in st.session_state.messages:
     with st.chat_message(message["role"]):
         st.markdown(message["content"])
 
-# --- Display Recommendations and "Back" button ---
-# --- Display Recommendations and "Back" button ---
-st.markdown("---")
-rec_header = translate_text("Recommended Questions", target_lang=st.session_state.user_language)
-st.subheader(rec_header, anchor=False) # anchor=False removes the link icon
+# --- User Input Section ---
+# We REMOVE the callback and go back to a simpler, direct approach.
+selected_suggestion = st_searchbox(
+    search_function=get_suggestions,
+    placeholder="Ask your question here for real-time suggestions...",
+    key="question_searchbox"
+)
 
-# We will handle the back button and recommendations in a grid layout
+# This block now correctly handles the state to prevent infinite loops.
+if selected_suggestion:
+    # 1. Process the query
+    handle_query(selected_suggestion)
+    
+    # 2. THE CRITICAL FIX: Manually clear the searchbox's state.
+    # This must be done before the rerun.
+    st.session_state.question_searchbox = None 
+    
+    # 3. Rerun the app to display the new messages and the cleared searchbox.
+    st.rerun()
+
+
+# --- Main Recommendations Section ---
+st.markdown("---")
+rec_header = translate_text("Or select from these common questions:", target_lang=st.session_state.user_language)
+st.subheader(rec_header, anchor=False)
+
 action_items = []
-# Add the "Back" action first if history exists
 if st.session_state.recommender.history:
     action_items.append(("Back to previous questions", "go_back"))
-
-# Add the recommended questions
 for rec_en in st.session_state.recommendations:
-    action_items.append((rec_en, rec_en)) # Use the question itself as the ID
+    action_items.append((rec_en, rec_en))
 
-# You can adjust this number to change how many buttons appear per row
 num_columns = 3 
 cols = st.columns(num_columns)
-
-# Distribute the action items across the columns
 for i, (text_en, action_id) in enumerate(action_items):
     col = cols[i % num_columns]
     display_text = translate_text(text_en, target_lang=st.session_state.user_language)
@@ -118,12 +141,5 @@ for i, (text_en, action_id) in enumerate(action_items):
         if action_id == "go_back":
             st.session_state.recommendations = st.session_state.recommender.go_back()
         else:
-            # The action_id is the English version of the question
             handle_query(action_id)
         st.rerun()
-prompt_text = "Ask your question here..."
-if prompt := st.chat_input(translate_text(prompt_text, st.session_state.user_language)):
-    # Translate the user's free-text query to English for processing
-    query_en = translate_text(prompt, target_lang="en", source_lang=st.session_state.user_language)
-    handle_query(query_en)
-    st.rerun()
