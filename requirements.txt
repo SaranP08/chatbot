@@ -3,3 +3,4 @@ sentence_transformers
 deep_translator
 rank_bm25
 numpy
+streamlit_searchbox
