@@ -50,7 +50,7 @@ if "recommendations" not in st.session_state:
 if "live_suggestions" not in st.session_state:
     st.session_state.live_suggestions = []
 if "user_input" not in st.session_state:
-    st.session_state.user_input = "" # We'll use a more generic key now
+    st.session_state.user_input = ""
 
 # --- UI Sidebar for Language Selection ---
 st.sidebar.title("Settings")
@@ -63,7 +63,6 @@ st.session_state.user_language = indian_languages[selected_language_name]
 
 # --- Core Logic Functions ---
 def handle_query(query_en):
-    """Processes a query, gets an answer, updates recommendations, and stores in chat history."""
     results = bot.search(query_en, top_k=5, alpha=0.8)
     answer_en = results[0]['answer'] if results else "I'm sorry, I couldn't find an answer to that."
 
@@ -76,10 +75,9 @@ def handle_query(query_en):
     st.session_state.recommendations = st.session_state.recommender.recommend(query_en)
     
     st.session_state.live_suggestions = []
-    st.session_state.user_input = "" # Clear input box after processing
+    st.session_state.user_input = ""
 
 def update_suggestions():
-    """Callback to update live suggestions based on user input."""
     query_text = st.session_state.get("user_input", "")
     if len(query_text) > 3:
         results = bot.search(query_text, top_k=3, alpha=1.0)
@@ -98,32 +96,34 @@ for message in st.session_state.messages:
 
 # --- User Input and Live Suggestions Section ---
 
-# This function will handle form submission
-def submit_input():
-    prompt = st.session_state.user_input
-    if prompt:
-        query_en = translate_text(prompt, target_lang="en", source_lang=st.session_state.user_language)
-        handle_query(query_en)
+# THE FIX IS HERE: We remove the st.form and use st.columns for layout.
+input_col, button_col = st.columns([4, 1])
 
-# Using a form ensures submission happens only when the user hits Enter
-with st.form(key="input_form", clear_on_submit=True):
+with input_col:
     st.text_input(
         "Ask your question here...",
         key="user_input",
         on_change=update_suggestions,
-        autocomplete="off" # Helps prevent browser suggestions from interfering
+        autocomplete="off",
+        label_visibility="collapsed" # Hides the label to make it cleaner
     )
-    # The submit button is required for the form, but we can make it invisible
-    st.form_submit_button("Submit", on_click=submit_input, type="primary")
+
+with button_col:
+    if st.button("Submit", use_container_width=True, type="primary"):
+        prompt = st.session_state.user_input
+        if prompt:
+            query_en = translate_text(prompt, target_lang="en", source_lang=st.session_state.user_language)
+            handle_query(query_en)
+            st.rerun()
 
 # Display live suggestions if they exist
 if st.session_state.live_suggestions:
     st.markdown("---")
     st.write("Suggestions:")
     for suggestion in st.session_state.live_suggestions:
-        if st.button(suggestion, key=f"live_sugg_{suggestion}"):
+        if st.button(suggestion, key=f"live_sugg_{suggestion}", use_container_width=True):
             handle_query(suggestion)
-            st.rerun() # Rerun to reflect the new state immediately
+            st.rerun()
 
 # --- Main Recommendations Section ---
 st.markdown("---")
