@@ -88,31 +88,34 @@ for message in st.session_state.messages:
         st.markdown(message["content"])
 
 # --- Display Recommendations and "Back" button ---
+# --- Display Recommendations and "Back" button ---
 st.markdown("---")
 rec_header = translate_text("Recommended Questions", target_lang=st.session_state.user_language)
-st.subheader(rec_header, anchor=False)
+st.subheader(rec_header, anchor=False) # anchor=False removes the link icon
 
-# Create columns for the buttons
-cols = st.columns(3)
-
-# Add a "Back" button if there's history in the recommender
+# We will handle the back button and recommendations in a grid layout
+action_items = []
+# Add the "Back" action first if history exists
 if st.session_state.recommender.history:
-    back_button_text = "Back to previous questions"
-    if cols[0].button(translate_text(back_button_text, st.session_state.user_language), use_container_width=True):
-        st.session_state.recommendations = st.session_state.recommender.go_back()
-        st.rerun()
+    action_items.append(("Back to previous questions", "go_back"))
 
-# Display recommendation buttons
-for i, rec_en in enumerate(st.session_state.recommendations):
-    rec_display = translate_text(rec_en, target_lang=st.session_state.user_language)
-    if st.button(rec_display, key=rec_en, use_container_width=True):
-        handle_query(rec_en)
-        st.rerun()
+# Add the recommended questions
+for rec_en in st.session_state.recommendations:
+    action_items.append((rec_en, rec_en)) # Use the question itself as the ID
 
-# --- User Input Text Box ---
-prompt_text = "Ask your question here..."
-if prompt := st.chat_input(translate_text(prompt_text, st.session_state.user_language)):
-    # Translate the user's free-text query to English for processing
-    query_en = translate_text(prompt, target_lang="en", source_lang=st.session_state.user_language)
-    handle_query(query_en)
-    st.rerun()
+# You can adjust this number to change how many buttons appear per row
+num_columns = 3 
+cols = st.columns(num_columns)
+
+# Distribute the action items across the columns
+for i, (text_en, action_id) in enumerate(action_items):
+    col = cols[i % num_columns]
+    display_text = translate_text(text_en, target_lang=st.session_state.user_language)
+    
+    if col.button(display_text, key=action_id, use_container_width=True):
+        if action_id == "go_back":
+            st.session_state.recommendations = st.session_state.recommender.go_back()
+        else:
+            # The action_id is the English version of the question
+            handle_query(action_id)
+        st.rerun()
