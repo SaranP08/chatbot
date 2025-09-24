@@ -84,14 +84,12 @@ if "query_for_next_run" in st.session_state:
 
 
 # --- Sidebar ---
-st.sidebar.title("Settings")
-selected_language_name = st.sidebar.selectbox(
-    "Select your language", list(indian_languages.keys()), index=0
-)
+st.sidebar.title("Select your language", anchor=False)
+selected_language_name = st.sidebar.selectbox(list(indian_languages.keys()), index=0)
 st.session_state.user_language = indian_languages[selected_language_name]
 
 # --- Main UI ---
-st.title("Sat2Farm AI Assistant")
+st.title("Sat2Farm AI Assistant", anchor=False)
 st.markdown("Ask me anything about Sat2Farm, or select a recommended question below.")
 
 # Display chat messages
@@ -102,7 +100,7 @@ for msg in st.session_state.messages:
 # --- Recommendations Section ---
 st.markdown("---")
 rec_header = translate_text("Or select from these common questions:", st.session_state.user_language)
-st.subheader(rec_header)
+st.subheader(rec_header, anchor=False)
 
 action_items = []
 if st.session_state.recommender.history:
