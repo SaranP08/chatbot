@@ -1594,5 +1594,9 @@
   {
     "instruction": "Is the app free?",
     "response": "Registration and adding farms is free. LSWI and NDVI reports are complementary services, but other features incur charges."
+  },
+  {
+    "instruction": "Who is the CEO of Satyukt Analytics?",
+    "response": "Satyukt Analytics is led by Founder and CEO Dr. Sat Kumar Tomer"
   }
 ]
