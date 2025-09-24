@@ -1,83 +1,118 @@
 import streamlit as st
 from rank import HybridChatBot
 from deep_translator import GoogleTranslator
+from recommender import QuestionRecommender
 
-# ---------------- LANGUAGE DICTIONARY ---------------- #
+# --- App Configuration ---
+st.set_page_config(page_title="Hybrid ChatBot", layout="wide")
+
+# --- Language & Translation Setup ---
 indian_languages = {
-    "English": "en",
-    "Hindi": "hi",
-    "Tamil": "ta",
-    "Telugu": "te",
-    "Kannada": "kn",
-    "Malayalam": "ml",
-    "Marathi": "mr",
-    "Gujarati": "gu",
-    "Punjabi": "pa",
-    "Bengali": "bn",
-    "Odia": "or",
-    "Urdu": "ur",
-    "Assamese": "as",
-    "Konkani": "kok",
-    "Manipuri (Meitei)": "mni",
-    "Sanskrit": "sa",
-    "Kashmiri": "ks",
-    "Dogri": "doi",
-    "Santali": "sat",
-    "Maithili": "mai",
-    "Bodo": "brx",
-    "Nepali": "ne",
-    "French": "fr",
-    "Spanish": "es",
-    "German": "de",
-    "Italian": "it",
+    "English": "en", "Hindi": "hi", "Tamil": "ta", "Telugu": "te", "Kannada": "kn", 
+    "Malayalam": "ml", "Marathi": "mr", "Gujarati": "gu", "Punjabi": "pa", "Bengali": "bn", 
+    "Odia": "or", "Urdu": "ur", "Assamese": "as", "French": "fr", "Spanish": "es", 
+    "German": "de", "Italian": "it"
 }
 
+@st.cache_data
 def translate_text(text, target_lang, source_lang="auto"):
-    return GoogleTranslator(source=source_lang, target=target_lang).translate(text)
+    if source_lang == target_lang or (target_lang == "en" and source_lang == "auto"):
+        return text
+    try:
+        return GoogleTranslator(source=source_lang, target=target_lang).translate(text)
+    except Exception as e:
+        st.error(f"Translation Error: {e}")
+        return text
 
-# ---------------- STREAMLIT UI ---------------- #
-st.set_page_config(page_title="🌐 Satyukt vertual assistant", layout="centered")
+# --- Model and Recommender Loading ---
+@st.cache_resource
+def load_bot():
+    return HybridChatBot()
 
-st.title("Hi, there! How can i help you?")
-st.write("select your preferred language.")
+@st.cache_resource
+def load_recommender():
+    return QuestionRecommender(
+        faiss_index_path="data/faiss.index",
+        questions_path="data/questions.npy"
+    )
 
-# Sidebar: language selection
-user_lang_name = st.sidebar.selectbox("Select your language", list(indian_languages.keys()), index=0)
-USER_LANGUAGE = indian_languages[user_lang_name]
+bot = load_bot()
+if 'recommender' not in st.session_state:
+    st.session_state.recommender = load_recommender()
 
-# Initialize bot
-if "bot" not in st.session_state:
-    st.session_state.bot = HybridChatBot()
+# --- Session State Initialization ---
 if "messages" not in st.session_state:
     st.session_state.messages = []
+if "user_language" not in st.session_state:
+    st.session_state.user_language = "en"
+if "recommendations" not in st.session_state:
+    st.session_state.recommendations = st.session_state.recommender.get_initial_questions()
 
-# Chat UI
-for msg in st.session_state.messages:
-    with st.chat_message(msg["role"]):
-        st.markdown(msg["content"])
+# --- UI Sidebar for Language Selection ---
+st.sidebar.title("Settings")
+selected_language_name = st.sidebar.selectbox(
+    "Select your language",
+    options=list(indian_languages.keys()),
+    index=0 # Default to English
+)
+st.session_state.user_language = indian_languages[selected_language_name]
 
-# User input
-if prompt := st.chat_input("Type your message..."):
-    # Show user message
-    st.session_state.messages.append({"role": "user", "content": prompt})
-    with st.chat_message("user"):
-        st.markdown(prompt)
+# --- Core Logic Function ---
+def handle_query(query_en):
+    """Processes a query, gets an answer, updates recommendations, and stores in chat history."""
+    # 1. Get answer from the bot
+    results = bot.search(query_en, top_k=5, alpha=0.8)
+    if not results:
+        answer_en = "I'm sorry, I couldn't find an answer to that."
+    else:
+        answer_en = results[0]['answer']
 
-    # Step 1: Translate query to English
-    query = prompt
-    if USER_LANGUAGE != "en":
-        query = translate_text(query, target_lang="en")
+    # 2. Translate for display
+    query_display = translate_text(query_en, target_lang=st.session_state.user_language)
+    answer_display = translate_text(answer_en, target_lang=st.session_state.user_language)
 
-    # Step 2: Bot search
-    results = st.session_state.bot.search(query, top_k=5, alpha=0.8)
-    best = results[0]
-    answer = best["answer"]
+    # 3. Add to chat history
+    st.session_state.messages.append({"role": "user", "content": query_display})
+    st.session_state.messages.append({"role": "assistant", "content": answer_display})
 
-    # Step 3: Translate answer back
-    if USER_LANGUAGE != "en":
-        answer = translate_text(answer, target_lang=USER_LANGUAGE)
+    # 4. Get new recommendations and update state
+    st.session_state.recommendations = st.session_state.recommender.recommend(query_en)
 
-    # Show bot response
-    with st.chat_message("assistant"):
-        st.markdown(answer)
-    st.session_state.messages.append({"role": "assistant", "content": answer})
+# --- Main App Interface ---
+st.title("Sat2Farm AI Assistant", anchor=False)
+st.markdown("Ask me anything about Sat2Farm, or select a recommended question below.")
+
+# Display chat messages from history
+for message in st.session_state.messages:
+    with st.chat_message(message["role"]):
+        st.markdown(message["content"])
+
+# --- Display Recommendations and "Back" button ---
+st.markdown("---")
+rec_header = translate_text("Recommended Questions", target_lang=st.session_state.user_language)
+st.subheader(rec_header, anchor=False)
+
+# Create columns for the buttons
+cols = st.columns(3)
+
+# Add a "Back" button if there's history in the recommender
+if st.session_state.recommender.history:
+    back_button_text = "Back to previous questions"
+    if cols[0].button(translate_text(back_button_text, st.session_state.user_language), use_container_width=True):
+        st.session_state.recommendations = st.session_state.recommender.go_back()
+        st.rerun()
+
+# Display recommendation buttons
+for i, rec_en in enumerate(st.session_state.recommendations):
+    rec_display = translate_text(rec_en, target_lang=st.session_state.user_language)
+    if st.button(rec_display, key=rec_en, use_container_width=True):
+        handle_query(rec_en)
+        st.rerun()
+
+# --- User Input Text Box ---
+prompt_text = "Ask your question here..."
+if prompt := st.chat_input(translate_text(prompt_text, st.session_state.user_language)):
+    # Translate the user's free-text query to English for processing
+    query_en = translate_text(prompt, target_lang="en", source_lang=st.session_state.user_language)
+    handle_query(query_en)
+    st.rerun()

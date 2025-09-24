@@ -1096,7 +1096,7 @@
     "response": "Currently available in English, Hindi, Kannada, Telugu, and more. Language can be\nselected from the profile section.\nAdding a Farm"
   },
   {
-    "instruction": "How to add my farm in the app?",
+    "instruction": "How to add my farm in the App?",
     "response": "Go to Home → Tap \"Add New\" → Choose Walk or Draw method → Mark the boundary →\nFill in farm name, crop, sowing date → Save. Your farm will be listed under \"My Farms\"."
   },
   {
@@ -1192,19 +1192,19 @@
     "response": "A weekly timeline of farm activities from field prep to harvest, tailored to your sowing date."
   },
   {
-    "instruction": "How to retrieve it?",
+    "instruction": "How to retrieve Crop Calendar?",
     "response": "Tap \"Crop Calendar\" in your farm menu. Scroll weeks to see tasks and input\nrecommendations."
   },
   {
-    "instruction": "How to get it?",
+    "instruction": "How to get Crop Calendar?",
     "response": "Tap \"Crop Calendar\" in your farm menu. Scroll weeks to see tasks and input\nrecommendations."
   },
   {
-    "instruction": "How to access it?",
+    "instruction": "How to access Crop Calendar?",
     "response": "Tap \"Crop Calendar\" in your farm menu. Scroll weeks to see tasks and input\nrecommendations."
   },
   {
-    "instruction": "How to open it?",
+    "instruction": "How to open Crop Calendar?",
     "response": "Tap \"Crop Calendar\" in your farm menu. Scroll weeks to see tasks and input\nrecommendations."
   },
   {
@@ -1582,5 +1582,17 @@
   {
     "instruction": "Where is satyukt analytics located?",
     "response": "Address: 2nd Floor, 1A Block, Sanjay Nagar Main Rd, CIL Layout\nBlock, Judicial Colony, Raj Mahal Vilas 2nd Stage, Sanjayanagara,\nBengaluru, Karnataka 560094"
+  },
+  {
+    "instruction": "What is Sat2Farm?",
+    "response": "Sat2Farm is a mobile and web application that uses satellite technology to provide farmers with precision agriculture insights, such as crop health, soil moisture, and weather forecasts, to optimize farming practices, improve yields, and manage resources like water and fertilizer more efficiently"
+  },
+  {
+    "instruction": "Is the app available for Iphone?",
+    "response": "Yes, an iPhone version of the Sat2Farm app is available."
+  },
+  {
+    "instruction": "Is the app free?",
+    "response": "Registration and adding farms is free. LSWI and NDVI reports are complementary services, but other features incur charges."
   }
 ]
