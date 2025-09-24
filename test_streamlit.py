@@ -84,8 +84,10 @@ if "query_for_next_run" in st.session_state:
 
 
 # --- Sidebar ---
-st.sidebar.title("Select your language", anchor=False)
-selected_language_name = st.sidebar.selectbox(list(indian_languages.keys()), index=0)
+st.sidebar.title("Select Your Language", anchor=False)
+selected_language_name = st.sidebar.selectbox(
+    " ", list(indian_languages.keys()), index=0
+)
 st.session_state.user_language = indian_languages[selected_language_name]
 
 # --- Main UI ---
@@ -99,7 +101,7 @@ for msg in st.session_state.messages:
 
 # --- Recommendations Section ---
 st.markdown("---")
-rec_header = translate_text("Or select from these common questions:", st.session_state.user_language)
+rec_header = translate_text("Frequently Asked Questions:", st.session_state.user_language)
 st.subheader(rec_header, anchor=False)
 
 action_items = []
